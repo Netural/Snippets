@@ -6,7 +6,7 @@ var Mediator = function() {
 	// Subscribe to a channel
 	//
 	function subscribe( channel, fn, that ) {
-		if ( !channels[channel]) {
+		if ( !channels[channel] ) {
 			channels[channel] = [];
 		}
     	channels[channel].push({ context: that, callback: fn });	
