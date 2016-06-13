@@ -45,7 +45,6 @@ export class RequestService extends Service {
 
             let xhr = new XMLHttpRequest();
             let headers = options.headers;
-            console.log(headers);
 
             // Check if method is GET and body ias an object
             // If it is so, parse body object an append all properties as GET parameters to the url
