@@ -1,5 +1,5 @@
-import { Promise } from 'es6-promise';
-import { Service } from '../lib/Service';
+import { Promise } from 'es6-promise'; // import promise polyfill (e.g. es6-promise)
+import { Service } from '../lib/Service'; // import service from your local core folder
 
 /**
  * An options object containing any custom settings that you want to apply to the request.
