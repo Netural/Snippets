@@ -20,4 +20,5 @@ check `/ui-elements`
 
 check `/helper-functions`
 
-* [search needle in string and wrap it in a tag](https://github.com/Netural/Snippets/tree/master/helper-functions/search-highlight-needle)
+* [Helpful DOM functions](https://github.com/Netural/Snippets/tree/master/helper-functions/dom-helper-functions)
+* [Search needle in string and wrap it in a tag](https://github.com/Netural/Snippets/tree/master/helper-functions/search-highlight-needle)
