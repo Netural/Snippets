@@ -171,3 +171,27 @@ export function firstParentByClass(element: HTMLElement, klass: string): HTMLEle
     }
     return firstParentByClass(element.parentElement, klass);
 }
+
+/**
+ * get current window width
+ * 
+ * @export
+ * @returns {number} current window width
+ */
+export function getWindowWidth():number {
+    return window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+}
+
+/**
+ * get current window height
+ * 
+ * @export
+ * @returns {number} current window height
+ */
+export function getWindowHeight():number {
+    return window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+}
