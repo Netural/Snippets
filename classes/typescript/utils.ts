@@ -195,3 +195,105 @@ export function getWindowHeight():number {
     || document.documentElement.clientHeight
     || document.body.clientHeight;
 }
+
+/**
+ * Serialize Function which returns all the
+ * inputs of the HTMLFormElement passed
+ * as parameter as URL String
+ * 
+ * @param {HTMLFormElement} form
+ * @returns {string} Serialized Form
+ */
+export function serialize(form:HTMLFormElement): string {
+	if (!form || form.nodeName !== "FORM") {
+		return;
+	}
+    let i:number;
+    let j:number;
+    let q:string[] = [];
+	for (i = form.elements.length - 1; i >= 0; i = i - 1) {
+		if ((<HTMLInputElement>form.elements[i]).name === "") {
+			continue;
+		}
+		switch ((<HTMLInputElement>form.elements[i]).nodeName) {
+		case 'INPUT':
+			switch ((<HTMLInputElement>form.elements[i]).type) {
+			case 'text':
+			case 'hidden':
+			case 'password':
+			case 'button':
+			case 'reset':
+			case 'submit':
+				q.push((<HTMLInputElement>form.elements[i]).name + "=" + encodeURIComponent((<HTMLInputElement>form.elements[i]).value));
+				break;
+			case 'checkbox':
+			case 'radio':
+				if ((<HTMLInputElement>form.elements[i]).checked) {
+					q.push((<HTMLInputElement>form.elements[i]).name + "=" + encodeURIComponent((<HTMLInputElement>form.elements[i]).value));
+				}						
+				break;
+			case 'file':
+				break;
+			}
+			break;			 
+		case 'TEXTAREA':
+			q.push((<HTMLInputElement>form.elements[i]).name + "=" + encodeURIComponent((<HTMLInputElement>form.elements[i]).value));
+			break;
+		case 'SELECT':
+			switch ((<HTMLInputElement>form.elements[i]).type) {
+			case 'select-one':
+				q.push((<HTMLInputElement>form.elements[i]).name + "=" + encodeURIComponent((<HTMLInputElement>form.elements[i]).value));
+				break;
+			case 'select-multiple':
+				for (j = (<HTMLSelectElement>form.elements[i]).options.length - 1; j >= 0; j = j - 1) {
+					if ((<HTMLOptionElement>(<HTMLSelectElement>form.elements[i]).options[j]).selected) {
+						q.push((<HTMLSelectElement>form.elements[i]).name + "=" + encodeURIComponent((<HTMLOptionElement>(<HTMLSelectElement>form.elements[i]).options[j]).value));
+					}
+				}
+				break;
+			}
+			break;
+		case 'BUTTON':
+			switch ((<HTMLInputElement>form.elements[i]).type) {
+			case 'reset':
+			case 'submit':
+			case 'button':
+				q.push((<HTMLInputElement>form.elements[i]).name + "=" + encodeURIComponent((<HTMLInputElement>form.elements[i]).value));
+				break;
+			}
+			break;
+		}
+	}
+	return q.join("&");
+}
+
+/**
+ * Serialize URL Encoded Key:value Pair String to JS Object 
+ * 
+ * @export
+ * @param {string} serializedString
+ * @returns {*} JavaSript Object
+ */
+export function serializedStringToJSON(serializedString: string): any {            
+    let pairs = serializedString.split('&');
+    
+    let result: any = {};
+	for (let i = 0, len = pairs.length; i < len; i++) {
+		let pair = pairs[i].split('=');
+        result[pair[0]] = decodeURIComponent(pair[1] || '');
+	}
+
+    return JSON.parse(JSON.stringify(result));
+}
+
+/**
+ * Combines serialize + serializedStringToJSON
+ * and directly returnes the JS Object.
+ * 
+ * @export
+ * @param {HTMLFormElement} form
+ * @returns {*}
+ */
+export function serializeArray(form: HTMLFormElement): any {
+	return serializedStringToJSON(serialize(form));
+}
