@@ -297,3 +297,65 @@ export function serializedStringToJSON(serializedString: string): any {
 export function serializeArray(form: HTMLFormElement): any {
 	return serializedStringToJSON(serialize(form));
 }
+
+
+/**
+ * get param by name from url
+ * 
+ * @export
+ * @param {string} name
+ * @param {string} url
+ * @returns {string}
+ */
+export function getParameterByName(name: string, url: string): string {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+/**
+ * Cut text on a specific length but only if the word is already seperated by a ' ', otherwise
+ * make the text even smaller.
+ * 
+ * @export
+ * @param {string} text
+ * @param {number} maxCharacters
+ * @param {string} [append='...']
+ * @returns {string}
+ */
+export function intelligentCutText(text: string, maxCharacters: number, append: string = '...'): string {
+	if (text.length > maxCharacters) {
+		return text.substr(0, text.substr(0, maxCharacters).lastIndexOf(' ')) + append;
+	}
+	return text;
+}
+
+/**
+ * Add's a query param and link to the history of the browser
+ * 
+ * @export
+ * @param {string} url
+ * @param {string} param
+ * @param {string} value
+ * @param {string} title
+ */
+export function addQueryParamToHistory(url: string, param: string, value: string, title:string) {
+	let link: HTMLAnchorElement = document.createElement('a')
+	let regex = /(?:\?|&amp;|&)+([^=]+)(?:=([^&]*))*/g;
+	let match: any;
+	let str: any = [];
+	link.href = url;
+	param = encodeURIComponent(param);
+	while (match = regex.exec(link.search)) {
+		if (param != match[1]) {
+			str.push(match[1] + (match[2] ? '=' + match[2] : ''));
+		}
+	}
+	str.push(param + (value ? '=' + encodeURIComponent(value) : ''));
+	link.search = str.join('&');
+	window.history.pushState({}, title , link.href);
+}
