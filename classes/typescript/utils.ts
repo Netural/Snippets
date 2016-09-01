@@ -219,6 +219,13 @@ export function serialize(form:HTMLFormElement): string {
 		case 'INPUT':
 			switch ((<HTMLInputElement>form.elements[i]).type) {
 			case 'text':
+			case 'email':
+			case 'number':
+			case 'phone':
+			case 'date':
+			case 'datetime':
+			case 'time':
+			case 'color':
 			case 'hidden':
 			case 'password':
 			case 'button':
