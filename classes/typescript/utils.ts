@@ -335,7 +335,7 @@ export function getParameterByName(name: string, url: string): string {
  * @returns {string}
  */
 export function intelligentCutText(text: string, maxCharacters: number, append: string = '...'): string {
-	if (typeof text === 'string ' && text && text.length > maxCharacters) {
+	if (typeof text === 'string' && text && text.length > maxCharacters) {
 		return text.substr(0, text.substr(0, maxCharacters).lastIndexOf(' ')) + append;
 	}
 	return text;
