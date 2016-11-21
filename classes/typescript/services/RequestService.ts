@@ -22,6 +22,17 @@ export interface IRequestOptions {
 }
 
 /**
+ * An options object containing any custom settings that you want to apply to the request.
+ *
+ * @interface IJSONOptions
+ */
+export interface IJSONOptions {
+    timeout?: number;
+    callback?: string;
+    callbackFunction?: string;
+}
+
+/**
  * Service for requesting/fetching data from an url
  *
  * @export
@@ -139,5 +150,72 @@ export class RequestService extends Service {
         return this.fetch(url, options).then(result => {
             return JSON.parse(result);
         });
+    }
+
+    /**
+     * Fetches a resource. Returns a Promise with a string as a result.
+     * 
+     * @param {string} url The url to fetch
+     * @param {IJSONOptions} [options] Additional options for callbackfunctioname, timeout, ...
+     * @returns {(Promise<Object | Array<any>>)} Promise with resolved data or error
+     */
+    public fetchJSONP(_url: string, options?: IJSONOptions): Promise<Object | Array<any>> {
+        const timeout = options && options.timeout ? options.timeout : 5000;
+        const callbackFn = options && options.callback ? options.callback : 'callback';
+        const callbackFnName = options && options.callbackFunction ? options.callbackFunction : `jsonp_${Date.now()}_${Math.ceil(Math.random() * 100000)}`;
+        let timeoutId: number;
+        return new Promise((resolve, reject) => {
+            const scriptId = `${callbackFn}_${callbackFnName}`;
+
+            (<any>window)[callbackFnName] = (response: Object | Array<any>) => {
+                resolve(response);
+
+                if (timeoutId) clearTimeout(timeoutId);
+
+                this._removeScript(scriptId);
+
+                this._clearFunction(callbackFnName);
+            };
+
+            let url = _url;
+            url += (url.indexOf('?') === -1) ? '?' : '&';
+
+            const jsonpScript = document.createElement('script');
+            jsonpScript.setAttribute('src', `${url}${callbackFn}=${callbackFnName}`);
+            jsonpScript.id = scriptId;
+            document.getElementsByTagName('head')[0].appendChild(jsonpScript);
+
+            timeoutId = setTimeout(() => {
+                reject(new Error(`JSONP request to ${_url} timed out`));
+
+                this._clearFunction(callbackFnName);
+                this._removeScript(scriptId);
+            }, timeout);
+
+        });
+    }
+
+
+    /**
+     * Removes a function by name from the windows object
+     * 
+     * @param {any} functionName The name of the function
+     */
+    private _clearFunction(functionName: any) {
+        try {
+            delete window[functionName];
+        } catch (e) {
+            window[functionName] = undefined;
+        }
+    }
+
+    /**
+     * Removes a script tag by its id
+     * 
+     * @param {any} scriptId The ID of the script
+     */
+    private _removeScript(scriptId: any) {
+        const script = document.getElementById(scriptId);
+        document.getElementsByTagName('head')[0].removeChild(script);
     }
 }
