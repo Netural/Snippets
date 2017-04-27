@@ -8,6 +8,7 @@ check `/ui-elements`
 
 * [custom styled checkbox](https://github.com/Netural/Snippets/tree/master/ui-elements/checkbox)
 * [custom styled radio](https://github.com/Netural/Snippets/tree/master/ui-elements/radiobox)
+* [custom styled radio with svg](https://github.com/Netural/Snippets/tree/master/ui-elements/radio-svg)
 * [custom styled selectbox](https://github.com/Netural/Snippets/tree/master/ui-elements/select)
 * [pattern for css only mobile sidenav](https://github.com/Netural/Snippets/tree/master/ui-elements/mobilenav)
 * [essential input styles](https://github.com/Netural/Snippets/tree/master/ui-elements/input)
