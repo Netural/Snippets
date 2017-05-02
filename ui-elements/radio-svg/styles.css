@@ -1,0 +1,37 @@
+/*  To avoid the issue of uncorrect center position of the after element
+    we use a background data svg instead of a after element.
+    Create svg data url here: https://dopiaza.org/tools/datauri/index.php */
+
+input[type="radio"] {
+    display: block;
+    position: absolute;
+    left: -999em;
+    z-index: 0;
+}
+label {
+    display: inline-block;
+    line-height: 20px;
+    user-select:none;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 12px;
+}
+
+  label:before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 50%;
+  }
+
+  input[type=radio]:checked + label:before{
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMzBweCIgaGVpZ2h0PSIzMHB4IiB2aWV3Qm94PSIwIDAgMzAgMzAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMwIDMwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxwYXRoIGZpbGw9IiMwMTAyMDIiIGQ9Ik0yNS4yNDIsOS4wNjJjLTEuMDU4LTEuODEyLTIuNDkyLTMuMjQ3LTQuMzA1LTQuMzA0UzE3LjE0NiwzLjE3MiwxNSwzLjE3MnMtNC4xMjUsMC41MjktNS45MzgsMS41ODYNCgkJQzcuMjUxLDUuODE2LDUuODE2LDcuMjUsNC43NTcsOS4wNjJDMy43LDEwLjg3NSwzLjE3MiwxMi44NTQsMy4xNzIsMTVjMCwyLjE0NiwwLjUyOCw0LjEyNSwxLjU4NSw1LjkzOHMyLjQ5MywzLjI0Niw0LjMwNSw0LjMwNQ0KCQljMS44MTIsMS4wNTgsMy43OTEsMS41ODYsNS45MzgsMS41ODZzNC4xMjUtMC41MjgsNS45MzgtMS41ODZzMy4yNDctMi40OTIsNC4zMDUtNC4zMDVjMS4wNTctMS44MTIsMS41ODYtMy43OTEsMS41ODYtNS45MzgNCgkJQzI2LjgyOCwxMi44NTQsMjYuMjk5LDEwLjg3NSwyNS4yNDIsOS4wNjJ6Ii8+DQo8L2c+DQo8L3N2Zz4NCg==);
+    background-size: contain;
+  }
